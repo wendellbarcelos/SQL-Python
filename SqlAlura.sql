@@ -64,3 +64,25 @@ WHERE datatermino NOT NULL;
 -- Quantidade de trabalhadores que tiraram ferias no ano 2023 --
 SELECT COUNT(*) from Licencas
 WHERE tipolicenca = 'férias' and datainicio LIKE '2023%';
+
+-- Retorne a quantidade de dependentes agrupando pelo tipo de dependente
+SELECT parentesco, COUNT(*) AS 'Total' FROM Dependentes
+GROUP BY parentesco;
+
+/* A cláusula HAVING em SQL é utilizada para especificar condições de filtro que se aplicam a grupos de registros, 
+em contraste com a cláusula WHERE, que se aplica a registros individuais. */
+
+-- A ordem das cláusulas em uma consulta SQL é importante: SELECT -> FROM -> WHERE -> GROUP BY -> HAVING -> ORDER BY
+
+-- Qual a quantidade de cursos por instituição --
+SELECT instituicao, COUNT(curso) AS 'Total' FROM Treinamento
+GROUP BY instituicao
+HAVING Total >= 2
+ORDER by Total DESC;
+
+
+-- Qual a quantidade de cargo na empresa --
+SELECT cargo, COUNT(cargo) Qtd_Cargo, SUM(salario) Total_Salarios from HistoricoEmprego
+GROUP by cargo
+HAVING Total_Salarios > 20000
+ORDER BY Total_Salarios DESC;
