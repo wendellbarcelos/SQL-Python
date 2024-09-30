@@ -119,3 +119,5 @@ CEIL(faturamento_bruto) Fat_Bruto from faturamento; -- Arredondando para cima
 SELECT FLOOR(faturamento_bruto) Fat, -- Arredondando para baixo
 CEIL(faturamento_bruto) Fat_Bruto, ROUND(POWER(faturamento_bruto,2),2)
 from faturamento;
+
+-- proximos passos
