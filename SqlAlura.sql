@@ -86,3 +86,52 @@ SELECT cargo, COUNT(cargo) Qtd_Cargo, SUM(salario) Total_Salarios from Historico
 GROUP by cargo
 HAVING Total_Salarios > 20000
 ORDER BY Total_Salarios DESC;
+
+
+-- Retornar o tamanho do CPF ou de qualquer valor
+SELECT COUNT(*), LENGTH(cpf) qtd
+FROM Colaboradores
+WHERE qtd = 11;
+
+--Medidas de Dispersão -> Média, Variancia e Desvio Padrão
+
+-- Tamanho da amostra
+SELECT COUNT(salario) AS N from HistoricoEmprego
+-- Média -> Calculando ou pode usar a função AVG
+SELECT SUM(salario) / COUNT(salario) AS Média From HistoricoEmprego
+-- Variancia
+SELECT POWER(salario - AVG(salario),2) / COUNT(salario - 1) AS Variancia FROM HistoricoEmprego
+-- Desvio Padrão
+SELECT SQRT(POWER(salario - AVG(salario),2) / COUNT(salario - 1)) AS DesvioPadrão FROM HistoricoEmprego
+
+-- Categorizando os salarios como Alto, Médio e Baixo (Case = If)
+SELECT ID, cargo, salario, 
+Case 
+WHEN salario < 3000 THEN 'Baixo'
+WHEN salario BETWEEN 3000 AND 6000 THEN 'Médio'
+ELSE 'Alto'
+END AS Categoria_Salario 
+from HistoricoEmprego
+
+-- Precisamos dar de salario de 15% para salarios abaixo de 3000, 10% entre 3000 e 6000, e 5% acima de 6000 e classifica-los
+SELECT ID, cargo, salario, 
+	Case 
+		WHEN salario < 3000 THEN 'Baixo'
+		WHEN salario BETWEEN 3000 AND 6000 THEN 'Médio'
+		ELSE 'Alto'
+	END AS Categoria_Salario,
+	FLOOR(Case 
+		WHEN salario < 3000 THEN salario * 1.15
+		WHEN salario BETWEEN 3000 AND 6000 THEN salario * 1.10
+		ELSE salario * 1.05
+	END) AS Salario_Aumento
+from HistoricoEmprego
+
+/* Exiba o departamento e a média salarial dos funcionários em cada departamento na tabela funcionarios, agrupando por departamento, 
+apenas para os departamentos cuja média salarial é superior a $5000. */
+
+SELECT cargo, ROUND(AVG(salario),0) As Média_Salario FROM HistoricoEmprego
+GROUP BY cargo
+HAVING Média_Salario > 5000
+order BY Média_Salario ASC
+
