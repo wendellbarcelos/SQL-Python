@@ -87,6 +87,40 @@ GROUP by cargo
 HAVING Total_Salarios > 20000
 ORDER BY Total_Salarios DESC;
 
+<<<<<<< HEAD
+-- Precisa saber se todos os campos de CPF foram preenchidos corretamente, verificando a Qtd pela Qtd de Colaboradores
+SELECT cpf, LENGTH(cpf) as Digitos_CPF FROM Colaboradores
+WHERE Digitos_CPF = 11;
+
+SELECT COUNT(*), LENGTH(CPF) Digitos_CPF from Colaboradores
+WHERE Digitos_CPF = 11;
+
+-- Retornando o ano e mês por Id do colaborador
+SELECT id_colaborador, STRFTIME('%Y/%m', datainicio) As Ano_Mês FROM Licencas;
+
+-- Precisamos saber a quantidade de dias trabalhados por cada Colaboradores
+SELECT id_colaborador, JULIANDAY(datatermino) - JULIANDAY(datacontratacao) AS Tempo_Trabalhado
+FROM HistoricoEmprego
+WHERE datatermino is NOT NULL;
+
+-- Funções Data
+SELECT DATE('now', '-10 DAYS') -- Retorna a data atual menos 10 dias
+SELECT TIME('now') -- Retorna a hora atual
+SELECT DATETIME('now'); -- Retorna a data e hora atual
+SELECT DATETIME('now', '+1 year'); -- Retorna a data e hora atual no proximo ano ou a quant de anos informado
+SELECT CURRENT_TIMESTAMP; -- unção de conveniência que retorna a data e hora atuais no formato 'YYYY-MM-DD HH:MM:SS'
+
+-- Trabalhando com os valores arredondados 
+SELECT AVG(faturamento_bruto) Media_Fat_Bruto, 
+ROUND(AVG(faturamento_bruto),2) Media_Fat_Bruto from faturamento; -- usando 2 casas com o ROUND
+
+SELECT FLOOR(faturamento_bruto) Fat, -- Arredondando para baixo
+CEIL(faturamento_bruto) Fat_Bruto from faturamento; -- Arredondando para cima
+
+SELECT FLOOR(faturamento_bruto) Fat, -- Arredondando para baixo
+CEIL(faturamento_bruto) Fat_Bruto, ROUND(POWER(faturamento_bruto,2),2)
+from faturamento;
+
 
 -- Retornar o tamanho do CPF ou de qualquer valor
 SELECT COUNT(*), LENGTH(cpf) qtd
@@ -134,4 +168,5 @@ SELECT cargo, ROUND(AVG(salario),0) As Média_Salario FROM HistoricoEmprego
 GROUP BY cargo
 HAVING Média_Salario > 5000
 order BY Média_Salario ASC
+
 
